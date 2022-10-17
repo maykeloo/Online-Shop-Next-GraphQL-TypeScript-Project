@@ -11,6 +11,7 @@ export interface StoreApiResponse {
   description: string;
   category: string;
   image: string;
+  longDescription: string,
   rating: {
     rate: number;
     count: number;

@@ -6,11 +6,11 @@ interface HeaderProps {}
 export const Header = ({}: HeaderProps) => {
 
   return (
-    <header>
-      <nav className="bg-black cursor-pointer flex justify-center gap-2 rounded-xl my-4 max-w-7xl mx-auto text-white px-6 py-4">
+    <header className="mb-20">
+      <nav className="relative cursor-pointer before:absolute before:content=[''] before:-z-10 before:w-full before:h-[1px] before:bg-gray-300 before:left-0 before:bottom-0 flex justify-center gap-2 my-4 max-w-[90vw] mx-auto px-6 pt-4">
         <NavLink pathName="">Głowna</NavLink>
-        <NavLink pathName="about">O nas</NavLink>
         <NavLink pathName="products/1">Produkty</NavLink>
+        <NavLink pathName="about">O nas</NavLink>
       </nav>
       <HeaderFixed/>
     </header>

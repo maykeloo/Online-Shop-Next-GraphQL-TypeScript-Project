@@ -1,8 +1,8 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { FilterList } from "../../components/Filter/FilterList";
 import { Pagination } from "../../components/Pagination";
-import { ProductDetails } from "../../components/Product/Product";
 import { ProductsList } from "../../components/Product/ProductList";
 import {
   InferGetStaticPathsType,
@@ -17,7 +17,10 @@ const ProductsPage = ({
   const [perPage, setPerPage] = useState(25);
   return (
     <>
-      {data ? <ProductsList data={data} /> : null}
+      <div className="flex max-w-[90vw] mb-20 mx-auto relative">
+        <FilterList/>
+        <div className="flex-grow">
+        {data ? <ProductsList data={data} /> : null}
       <Pagination
         refetch={setPage}
         setPerPage={setPerPage}
@@ -26,6 +29,8 @@ const ProductsPage = ({
         page={page}
         productsLength={4000}
       />
+        </div>
+      </div>
     </>
   );
 };

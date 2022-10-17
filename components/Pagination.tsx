@@ -26,7 +26,7 @@ export const Pagination = ({
   const totalPagesLength = productsLength / perPage;
   return (
     <>
-      <div className="fixed flex gap-4 sm:max-w-[24rem]  max-w-xs bg-white border-2 border-black justify-center rounded-[50px] bottom-4 right-12 py-2 px-2">
+      <div className="flex gap-16 mx-auto justify-center py-2 px-2 absolute left-[50%] translate-x-[-50%] bottom-[-4rem]">
         <Link href={`/products/${Number(router.query.page) - (ssg && currentPage > 1 ? 1 : 0)}`}>
           <ChevronLeftIcon className="cursor-pointer" width={24} onClick={() => refetch((prev) => (prev > 1 ? prev - 1 : prev))}/>
         </Link>
@@ -37,13 +37,13 @@ export const Pagination = ({
             const isNext = page == currentPage + 1;
             const currentPageClass =
               page == currentPage || page == Number(router.query.page)
-                ? "rounded-full text-white bg-black w-8 h-8 flex justify-center align-center h-min"
+                ? "border-b-2 border-black w-8 h-8 flex justify-center align-center h-min"
                 : "";
 
               if (isPrev || isCurrent || isNext) {
                 return (
                   <Link href={ssg ? `/products/${page}` : ""} key={page}>
-                    <span onClick={() => {refetch(page)}} className={"cursor-pointer " + currentPageClass}>
+                    <span onClick={() => {refetch(page)}} className={"cursor-pointer py-2 " + currentPageClass}>
                       {page}
                     </span>
                   </Link>

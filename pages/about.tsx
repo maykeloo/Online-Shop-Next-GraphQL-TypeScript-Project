@@ -5,9 +5,7 @@ interface Props {
 
 const AboutPage = ({}: Props) => {
   return (
-    <Main>
-      HEJ
-    </Main>
+    <Main>O NAS</Main>
   );
 }
 

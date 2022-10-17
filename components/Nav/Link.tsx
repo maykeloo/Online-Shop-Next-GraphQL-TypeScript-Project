@@ -10,7 +10,7 @@ interface NavLinkProps {
 export const NavLink = ({ children, pathName: pathNameProp }: NavLinkProps) => {
   const { asPath } = useRouter();
   const pageActive = asPath.replace("/", "") === pathNameProp;
-  const activeClass = pageActive ? "border border-white rounded-[50px] px-4 py-2 flex items-center" : "border border-transparent px-4 py-2 flex items-center";
+  const activeClass = pageActive ? "border-b-2 border-black p-4 flex items-center" : "border-b-2 border-transparent p-4 flex items-center";
   const desitnation = "/" + pathNameProp;
   return (
     <>

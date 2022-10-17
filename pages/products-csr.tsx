@@ -1,9 +1,9 @@
-import { ProductDetails } from "../components/Product/Product";
 import { useQuery } from "@tanstack/react-query";
 
 import { Pagination } from "../components/Pagination";
 import { getProducts } from "../utils/api/useProducts";
 import { useState } from "react";
+import { ProductListItem } from "../components/Product/ProductListItem";
 
 const ProductsCRSPage = () => {
   const [page, setPage] = useState(1);
@@ -23,13 +23,12 @@ const ProductsCRSPage = () => {
 
   return (
     <>
-      <ul className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <ul className="max-w-[90vw] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {data.map((product) => (
           <li key={product.id}>
-            <ProductDetails
+            <ProductListItem
               data={{
                 id: product.id,
-                description: product.description,
                 rating: product.rating,
                 thumbnailAlt: product.title,
                 thumbnailUrl: product.image,
