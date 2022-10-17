@@ -18,17 +18,17 @@ const ProductsPage = ({
   return (
     <>
       <div className="flex max-w-[90vw] mb-20 mx-auto relative">
-        <FilterList/>
+        <FilterList />
         <div className="flex-grow">
-        {data ? <ProductsList data={data} /> : null}
-      <Pagination
-        refetch={setPage}
-        setPerPage={setPerPage}
-        ssg={true}
-        perPage={perPage}
-        page={page}
-        productsLength={4000}
-      />
+          {data ? <ProductsList data={data} /> : null}
+          <Pagination
+            refetch={setPage}
+            setPerPage={setPerPage}
+            ssg={true}
+            perPage={perPage}
+            page={page}
+            productsLength={4000}
+          />
         </div>
       </div>
     </>

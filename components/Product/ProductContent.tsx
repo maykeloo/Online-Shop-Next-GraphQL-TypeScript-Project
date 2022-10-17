@@ -25,7 +25,7 @@ export interface ProductsDetails {
 export const ProductContent = ({ data }: ProductContentProps) => {
   return (
     <>
-      <NextSeo title={data.title} description={data.description}/>
+      <NextSeo title={data.title} description={data.description} canonical={`https://online-shop-81ahtpoi3-maykeloo.vercel.app/products/product/${data.id}`}/>
       <Link href={`/products/product/${data.id}`}>
         <div className="max-w-[90vw] mx-auto border-gray-200 h-full flex flex-col justify-start cursor-pointer group">
           <div className="p-4 max-w-sm bg-white">
