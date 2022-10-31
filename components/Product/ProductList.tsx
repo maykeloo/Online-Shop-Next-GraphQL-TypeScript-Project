@@ -14,7 +14,6 @@ export const ProductsList = ({ data }: ProductsListProps) => {
             <ProductListItem
               data={{
                 id: product.id,
-                description: product.description,
                 rating: product.rating,
                 thumbnailAlt: product.title,
                 thumbnailUrl: product.image,

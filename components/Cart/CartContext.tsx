@@ -1,4 +1,11 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 interface CartItem {
   readonly price: number;
@@ -9,23 +16,55 @@ interface CartItem {
 
 interface CartState {
   items: readonly CartItem[];
+  itemsCount: {itemsCount: number};
   addItemToCart: (item: CartItem) => void;
   deleteItemCart: (id: number) => void;
   deleteProductCart: (id: number) => void;
 }
 export const CartStateContext = createContext<CartState | null>(null);
 
+const getCartProducts = () => {
+  const productsLocalStorage = localStorage.getItem("ONLINESHOP_PRODUCTS_CART");
+  if (!productsLocalStorage) {
+    return [];
+  }
+
+  try {
+    return JSON.parse(productsLocalStorage);
+  } catch (err) {
+    console.error(err);
+    return []
+  }
+};
+
+const setCartProductsInLocalStorage = (cartItems: CartItem[]) => {
+  localStorage.setItem("ONLINESHOP_PRODUCTS_CART", JSON.stringify(cartItems))
+}
+
 export const CartStateContextProvider = ({
   children,
 }: {
   children: ReactNode;
 }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[] | undefined>(undefined);
+
+  useEffect(() => {
+    setCartItems(getCartProducts());
+  }, []);
+
+  useEffect(() => {
+    if (cartItems === undefined) {
+      return;
+    }
+    setCartProductsInLocalStorage(cartItems)
+  }, [cartItems])
 
   //ADD PRODUCT TO CART
-  const addItemToCart: CartState['addItemToCart'] = (item) => {
-    setCartItems((cartItems) => {
-      const existingItem = cartItems.find((existingItem) => existingItem.title === item.title);
+  const addItemToCart: CartState["addItemToCart"] = (item) => {
+    setCartItems((cartItems = []) => {
+      const existingItem = cartItems.find(
+        (existingItem) => existingItem.title === item.title
+      );
       if (!existingItem) {
         return [...cartItems, item];
       }
@@ -38,9 +77,11 @@ export const CartStateContextProvider = ({
   };
 
   //DELETE ONE ITEM FROM PRODUCT CART
-  const deleteItemCart: CartState['deleteItemCart'] = (id) => {
-    setCartItems((cartItems) => {
-      const existingItem = cartItems.find((existingItem) => existingItem.id === id);
+  const deleteItemCart: CartState["deleteItemCart"] = (id) => {
+    setCartItems((cartItems = []) => {
+      const existingItem = cartItems.find(
+        (existingItem) => existingItem.id === id
+      );
 
       if (existingItem && existingItem.count > 1) {
         return cartItems.map((existingItem) => {
@@ -53,15 +94,22 @@ export const CartStateContextProvider = ({
     });
   };
 
-  //DELETE PRODUCT FROM CART 
-  const deleteProductCart: CartState['deleteProductCart']  = (id) => {
-    setCartItems((cartItems) => cartItems.filter(product => product.id !== id));
-  }
+  //DELETE PRODUCT FROM CART
+  const deleteProductCart: CartState["deleteProductCart"] = (id) => {
+    setCartItems((cartItems = []) =>
+      cartItems.filter((product) => product.id !== id)
+    );
+  };
+
+  const itemsCount = useMemo(() => ({
+    itemsCount: cartItems ? cartItems.length : 0
+  }), [cartItems])
 
   return (
     <CartStateContext.Provider
       value={{
-        items: cartItems,
+        items: cartItems || [],
+        itemsCount,
         addItemToCart,
         deleteItemCart,
         deleteProductCart,
@@ -74,6 +122,7 @@ export const CartStateContextProvider = ({
 
 export const useCartState = () => {
   const context = useContext(CartStateContext);
+
   if (!context) {
     throw new Error("There is no CartStateContextProvider");
   }

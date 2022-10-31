@@ -2,7 +2,6 @@ import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Pagination } from "../../components/Pagination";
-import { ProductDetails } from "../../components/Product/Product";
 import { ProductsList } from "../../components/Product/ProductList";
 import {
   InferGetStaticPathsType,
