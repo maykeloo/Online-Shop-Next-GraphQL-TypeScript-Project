@@ -1,9 +1,6 @@
 import { Main } from '../components/Main'
 
-interface Props {
-}
-
-const AboutPage = ({}: Props) => {
+const AboutPage = () => {
   return (
     <Main>O NAS</Main>
   );

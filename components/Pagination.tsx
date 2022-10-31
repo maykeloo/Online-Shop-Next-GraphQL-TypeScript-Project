@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -16,7 +16,6 @@ interface PaginationProps {
 
 export const Pagination = ({
   refetch,
-  page: currentPage,
   setPerPage,
   perPage,
   ssg,
@@ -24,26 +23,32 @@ export const Pagination = ({
 }: PaginationProps) => {
   const router = useRouter();
   const totalPagesLength = productsLength / perPage;
+  const [ pageNumber, setPageNumber ] = useState<number>(1)
+
+  useEffect(() => {
+    if(router.query.page) {
+      setPageNumber(Number(router.query.page))
+    }
+  }, [router.query.page])
   return (
     <>
       <div className="flex gap-16 mx-auto justify-center py-2 px-2 absolute left-[50%] translate-x-[-50%] bottom-[-4rem]">
-        <Link href={`/products/${Number(router.query.page) - (ssg && currentPage > 1 ? 1 : 0)}`}>
+        <Link href={`/products/${Number(router.query.page) - (ssg && pageNumber > 1 ? 1 : 0)}`}>
           <ChevronLeftIcon className="cursor-pointer" width={24} onClick={() => refetch((prev) => (prev > 1 ? prev - 1 : prev))}/>
         </Link>
         <div className="flex gap-4">
           {[...Array.from({ length: totalPagesLength }, (_, i) => i + 1)].map((page) => {
-            const isPrev = page == currentPage - 1;
-            const isCurrent = page == currentPage;
-            const isNext = page == currentPage + 1;
-            const currentPageClass =
-              page == currentPage || page == Number(router.query.page)
+            const isPrev = page == pageNumber - 1;
+            const isCurrent = page == pageNumber;
+            const isNext = page == pageNumber + 1;
+            const currentPageClass = page == Number(router.query.page)
                 ? "border-b-2 border-black w-8 h-8 flex justify-center align-center h-min"
-                : "";
+                : null;
 
               if (isPrev || isCurrent || isNext) {
                 return (
                   <Link href={ssg ? `/products/${page}` : ""} key={page}>
-                    <span onClick={() => {refetch(page)}} className={"cursor-pointer py-2 " + currentPageClass}>
+                    <span onClick={() => {refetch(page)}} className={"cursor-pointer " + currentPageClass}>
                       {page}
                     </span>
                   </Link>
@@ -51,7 +56,7 @@ export const Pagination = ({
               }
           })}
         </div>
-        <Link href={`/products/${Number(router.query.page) + (ssg && currentPage < totalPagesLength ? 1 : 0)}`}>
+        <Link href={`/products/${Number(router.query.page) + (ssg && pageNumber < totalPagesLength ? 1 : 0)}`}>
           <ChevronRightIcon className="cursor-pointer" width={24} onClick={() => refetch((prev) => (prev < totalPagesLength ? prev + 1 : prev))}/>
         </Link>
         {!ssg && <select
