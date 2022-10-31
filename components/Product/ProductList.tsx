@@ -1,5 +1,5 @@
 import { StoreApiResponse } from "../../types/products";
-import { ProductDetails } from "./Product";
+import { ProductListItem } from "./ProductListItem";
 
 interface ProductsListProps {
   data: StoreApiResponse[];
@@ -11,7 +11,7 @@ export const ProductsList = ({ data }: ProductsListProps) => {
       <ul className="max-w-7xl mx-auto mb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data?.map((product) => (
           <li key={product.id}>
-            <ProductDetails
+            <ProductListItem
               data={{
                 id: product.id,
                 description: product.description,

@@ -17,15 +17,19 @@ const ProductsPage = ({
   const [perPage, setPerPage] = useState(25);
   return (
     <>
-      {data ? <ProductsList data={data} /> : null}
-      <Pagination
-        refetch={setPage}
-        setPerPage={setPerPage}
-        ssg={true}
-        perPage={perPage}
-        page={page}
-        productsLength={4000}
-      />
+      <div className="flex max-w-[90vw] mb-20 mx-auto relative">
+        <div className="flex-grow">
+          {data ? <ProductsList data={data} /> : null}
+          <Pagination
+            refetch={setPage}
+            setPerPage={setPerPage}
+            ssg={true}
+            perPage={perPage}
+            page={page}
+            productsLength={4000}
+          />
+        </div>
+      </div>
     </>
   );
 };
