@@ -11,7 +11,7 @@ export const Layout = ({ children }: Props) => {
   return (
     <>
       <Header />
-      <div className="flex flex-grow">{children}</div>
+      <div className="flex flex-grow max-w-[90vw] mx-auto">{children}</div>
       <Footer />
     </>
   );

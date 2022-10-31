@@ -17,6 +17,7 @@ const ProductsPage = ({
   const [perPage, setPerPage] = useState(25);
   return (
     <>
+      <FilterList/>
       {data ? <ProductsList data={data} /> : null}
       <Pagination
         refetch={setPage}
