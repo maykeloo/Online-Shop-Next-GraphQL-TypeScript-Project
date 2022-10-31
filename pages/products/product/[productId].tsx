@@ -1,5 +1,4 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
-import { useRouter } from "next/router";
 import React from "react";
 import { ProductContent } from "../../../components/Product/ProductContent";
 import { InferGetStaticPathsType, Products, StoreApiResponse } from "../../../types/products";
@@ -18,7 +17,8 @@ const ProductDetailsPage = ({
                 thumbnailUrl: data.image,
                 description: data.description,
                 rating: data.rating,
-                price: data.price
+                price: data.price,
+                longDescription: data.longDescription
               }}
             />
           )}

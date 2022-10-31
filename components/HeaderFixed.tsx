@@ -17,15 +17,15 @@ export const HeaderFixed = () => {
   }, [])
   return (
       <>
-      {visible && <div className="bg-black flex gap-8 rounded-[50px] mx-auto text-white px-12 py-4 fixed justify-center bottom-4 z-10 left-1/2 translate-x-[-50%]">
+      {visible && <div className="bg-black flex gap-6 rounded-[50px] mx-auto text-white px-6 py-4 fixed justify-center bottom-4 z-10 left-1/2 translate-x-[-50%]">
         <Link href="/">
-          <HomeIcon className="text-color-white w-8"/>
+          <HomeIcon className="text-color-white w-6"/>
         </Link>
         <Link href="/products/1">
-          <ShoppingBagIcon className="text-color-white w-8"/>
+          <ShoppingBagIcon className="text-color-white w-6"/>
         </Link>
         <Link href="/about">
-          <InformationCircleIcon className="text-color-white w-8"/>
+          <InformationCircleIcon className="text-color-white w-6"/>
         </Link>
       </div>}
       </>
