@@ -13,4 +13,5 @@
 **Server:** 
 - Prisma
 - ApolloServer
+- Own auth system
 
