@@ -8,6 +8,7 @@
 - NextJS(React) 
 - ApolloClient 
 - Tailwind 
+- GraphQL
 - Typescript
 
 **Server:** 
