@@ -1,32 +1,37 @@
+import { gql } from "@apollo/client";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { FilterList } from "../../components/Filter/FilterList";
 import { Pagination } from "../../components/Pagination";
 import { ProductsList } from "../../components/Product/ProductList";
-import {
-  InferGetStaticPathsType,
-  StoreApiResponse,
-} from "../../types/products";
+import { client } from "../../graphql/apollo-client";
+import { InferGetStaticPathsType } from "../../types/products";
+import { GetAllProductsResponse, GetProductsCount } from "../../types/products/getProducts";
 
 const ProductsPage = ({
-  data,
+  products,
+  productsCount, 
+  pagesCount
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
   const [page, setPage] = useState(router ? Number(router.query.page) : 1);
   const [perPage, setPerPage] = useState(25);
   return (
     <>
-      <FilterList/>
-      {data ? <ProductsList data={data} /> : null}
-      <Pagination
-        refetch={setPage}
-        setPerPage={setPerPage}
-        ssg={true}
-        perPage={perPage}
-        page={page}
-        productsLength={4000}
-      />
+      <div className="flex max-w-[90vw] mb-20 mx-auto relative">
+        <div className="flex-grow">
+          {products ? <ProductsList data={products} /> : null}
+          <Pagination
+            refetch={setPage}
+            setPerPage={setPerPage}
+            perPage={perPage}
+            page={page}
+            productsLength={productsCount}
+            pagesCount={pagesCount}
+          />
+        </div>
+      </div>
     </>
   );
 };
@@ -50,23 +55,44 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({
   params,
 }: GetStaticPropsContext<InferGetStaticPathsType<typeof getStaticPaths>>) => {
-  const offset = params?.page ? +params.page * 25 - 25 : 25;
+  const { data: products, loading: productsLoading, error: productsError } = await client.query<GetAllProductsResponse>({
+    query: gql`
+      query {
+        products {
+          id
+          title
+          slug
+          imageId
+          image {
+            alt
+            url
+            height
+          }
+          price
+          rating {
+            rate
+            count
+          }
+          category
+        }
+      }
+    `,
+  });
 
-  const res = await fetch(
-    `https://naszsklep-api.vercel.app/api/products?take=25&offset=${offset}`
-  );
-  const data: StoreApiResponse[] | null = await res.json();
-
-  if (!params?.page) {
-    return {
-      props: {},
-      notFound: true,
-    };
-  }
-
+  const { data: productsCount, loading: productCountLoading, error: productsCountError } = await client.query<GetProductsCount>({
+    query: gql`
+      query {
+        productsCount
+      }
+    `,
+  });
+  const MAX_ON_PAGE = 50;
+  const pagesCount = Math.ceil(productsCount.productsCount / MAX_ON_PAGE);
   return {
     props: {
-      data,
+      products: products.products,
+      productsCount: productsCount.productsCount,
+      pagesCount 
     },
     notFound: false,
     revalidate: 1000 * 60 * 60 * 24,

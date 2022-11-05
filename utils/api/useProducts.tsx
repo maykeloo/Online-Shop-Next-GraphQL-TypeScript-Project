@@ -1,5 +1,3 @@
-import { useRouter } from "next/router";
-
 export interface Products {
   id: number;
   title: string;

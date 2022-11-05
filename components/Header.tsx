@@ -1,10 +1,16 @@
+import { useMemo } from "react";
 import { CartBar } from "./Cart/CartBar";
+import { useCartState } from "./Cart/CartContext";
 import { HeaderFixed } from "./HeaderFixed";
 import { NavLink } from "./Nav/Link";
 
-interface HeaderProps {}
+export const Header = () => {
+  const { itemsCount: { itemsCount } } = useCartState()
 
-export const Header = ({}: HeaderProps) => {
+  useMemo(() => ({
+    itemsCount
+  }), [itemsCount])
+
   return (
     <header className="mb-20">
       <nav>
@@ -12,7 +18,7 @@ export const Header = ({}: HeaderProps) => {
           <NavLink pathName="">Głowna</NavLink>
           <NavLink pathName="products/1">Produkty</NavLink>
           <NavLink pathName="about">O nas</NavLink>
-          <CartBar/>
+          <CartBar count={itemsCount}/>
         </div>
       </nav>
       <HeaderFixed />

@@ -18,12 +18,12 @@ export const CartSummary = () => {
 
   return (
     <>
-      <div>
+      <div className="py-10">
         <div>Podsumowanie koszyka</div>
         <div>
           Liczba elementów: <strong>{cartState.items.length}</strong>
         </div>
-        <div>Cena łącznie: {totalPrice}$</div>
+        <div>Cena łącznie: <strong>{totalPrice}$</strong></div>
       </div>
     </>
   );
