@@ -5,7 +5,6 @@ export interface ProductContentProps {
   data: ProductsDetails;
 }
 export interface ProductsDetails {
-  id: number;
   description: string;
   thumbnailUrl: string;
   thumbnailAlt: string;

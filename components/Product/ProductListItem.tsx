@@ -7,7 +7,7 @@ import { useCartState } from "../Cart/CartContext";
 
 export interface ProductProps {
   data: {
-    id: number;
+    id: string;
     thumbnailUrl: string;
     thumbnailAlt: string;
     title: string;
@@ -35,6 +35,7 @@ export const ProductListItem = ({ data }: ProductProps) => {
           <div className="p-4 bg-white">
             <Image
               objectFit="contain"
+              blurDataURL={data.thumbnailUrl}
               src={data.thumbnailUrl}
               alt={data.thumbnailAlt}
               className=" w-full h-96 border-1 border-gray-200 mx-auto transition-all"
@@ -47,7 +48,7 @@ export const ProductListItem = ({ data }: ProductProps) => {
             <h1 className="font-light my-2 text-lg">{data.title}</h1>
             <div className="flex justify-between items-center">
               <span className="font-bold text-lg">${data.price}</span>
-              <span className="flex gap-2">
+              <span className="flex gap-2">x
                 <StarIcon className="w-4" />
                 {data.rating.rate} ({data.rating.count})
               </span>

@@ -11,15 +11,15 @@ interface CartItem {
   readonly price: number;
   readonly title: string;
   readonly count: number;
-  readonly id: number;
+  readonly id: string;
 }
 
 interface CartState {
   items: readonly CartItem[];
   itemsCount: {itemsCount: number};
   addItemToCart: (item: CartItem) => void;
-  deleteItemCart: (id: number) => void;
-  deleteProductCart: (id: number) => void;
+  deleteItemCart: (id: string) => void;
+  deleteProductCart: (id: string) => void;
 }
 export const CartStateContext = createContext<CartState | null>(null);
 

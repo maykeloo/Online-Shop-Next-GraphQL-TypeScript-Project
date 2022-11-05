@@ -1,8 +1,8 @@
-import { StoreApiResponse } from "../../types/products";
+import { Product } from "../../types/products/getProducts";
 import { ProductListItem } from "./ProductListItem";
 
 interface ProductsListProps {
-  data: StoreApiResponse[];
+  data: Product[];
 }
 
 export const ProductsList = ({ data }: ProductsListProps) => {
@@ -13,10 +13,10 @@ export const ProductsList = ({ data }: ProductsListProps) => {
           <li key={product.id}>
             <ProductListItem
               data={{
-                id: product.id,
+                id: product.slug,
                 rating: product.rating,
-                thumbnailAlt: product.title,
-                thumbnailUrl: product.image,
+                thumbnailAlt: product.image.alt,
+                thumbnailUrl: product.image.url,
                 title: product.title,
                 price: product.price
               }}
