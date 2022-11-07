@@ -49,7 +49,6 @@ export default cors(async (req, res) => {
     res.end()
     return false;
   }
-
   await serverStart;
   await server.createHandler({ path: '/api/graphql' })(req, res)
 })
