@@ -6,7 +6,7 @@ interface CartBarProps {
   count: number;
 }
 
-export const CartBar = memo(function CartBar({ count }: CartBarProps) {
+export const CartBar = ({ count }: CartBarProps) => {
   return (
     <>
       <NavLink pathName="cart">
@@ -17,4 +17,4 @@ export const CartBar = memo(function CartBar({ count }: CartBarProps) {
       </NavLink>
     </>
   );
-});
+};

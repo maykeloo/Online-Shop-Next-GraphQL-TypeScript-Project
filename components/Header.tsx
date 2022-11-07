@@ -7,9 +7,9 @@ import { NavLink } from "./Nav/Link";
 export const Header = () => {
   const { itemsCount: { itemsCount } } = useCartState()
 
-  useMemo(() => ({
-    itemsCount
-  }), [itemsCount])
+  useMemo(() => {
+    return itemsCount
+  }, [itemsCount])
 
   return (
     <header className="mb-20">

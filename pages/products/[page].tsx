@@ -5,7 +5,7 @@ import { useState } from "react";
 import { FilterList } from "../../components/Filter/FilterList";
 import { Pagination } from "../../components/Pagination";
 import { ProductsList } from "../../components/Product/ProductList";
-import { client } from "../../graphql/apollo-client";
+import client from "../../apollo-client";
 import { InferGetStaticPathsType } from "../../types/products";
 import { GetAllProductsResponse, GetProductsCount } from "../../types/products/getProducts";
 
@@ -19,9 +19,11 @@ const ProductsPage = ({
   const [perPage, setPerPage] = useState(25);
   return (
     <>
-      <div className="flex max-w-[90vw] mb-20 mx-auto relative">
-        <div className="flex-grow">
+      <div className="flex max-w-[90vw] mb-20 mx-auto relative w-full">
+        <div className="flex-grow flex">
+          <FilterList/>
           {products ? <ProductsList data={products} /> : null}
+        </div>
           <Pagination
             refetch={setPage}
             setPerPage={setPerPage}
@@ -30,7 +32,6 @@ const ProductsPage = ({
             productsLength={productsCount}
             pagesCount={pagesCount}
           />
-        </div>
       </div>
     </>
   );

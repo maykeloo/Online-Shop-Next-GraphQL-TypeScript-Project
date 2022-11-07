@@ -37,6 +37,19 @@ export const ProductContent = ({ data }: ProductContentProps) => {
           <p className="w-72">{data.description}</p>
         </div>
       </div>
+            {/* <button
+        onClick={() =>
+          cartState.addItemToCart({
+            price: data.price,
+            title: data.title,
+            count: 1,
+            id: data.id
+          })
+        }
+        className="p-4 w-fit rounded-full bg-blue-600 text-white mt-2"
+      >
+        <ShoppingBagIcon width={20} />
+      </button> */}
     </>
   );
 };

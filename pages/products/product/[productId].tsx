@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import React from "react";
 import { ProductContent } from "../../../components/Product/ProductContent";
-import { client } from "../../../graphql/apollo-client";
+import client from "../../../apollo-client";
 import { InferGetStaticPathsType } from "../../../types/products";
 import {
   GetAllProductsResponse,
