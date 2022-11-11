@@ -1,6 +1,6 @@
 {
-    "watch": ["src"],
+    "watch": ["server"],
     "ext": "ts,json",
-    "ignore": ["src/**/*.spec.ts"],
+    "ignore": ["server/**/*.spec.ts"],
     "exec": "ts-node ./pages/api/graphql.ts" 
   }
