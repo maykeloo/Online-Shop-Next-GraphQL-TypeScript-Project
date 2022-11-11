@@ -16,6 +16,15 @@
       price:       number;
       category:    string;
       description: string;
+      isFavorite:  boolean;
+  }
+
+  export interface Products {
+    productsList: Product[]
+  }
+
+  export interface AllProducts {
+    products: Product[]
   }
 
   export interface Image {

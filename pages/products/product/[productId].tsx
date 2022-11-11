@@ -1,105 +1,52 @@
-import { gql } from "@apollo/client";
-import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
-import React from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
 import { ProductContent } from "../../../components/Product/ProductContent";
-import client from "../../../apollo-client";
-import { InferGetStaticPathsType } from "../../../types/products";
-import {
-  GetAllProductsResponse,
-} from "../../../types/products/getProducts";
+import { GET_PRODUCT } from "../../../graphql/handlers/queries";
 
-const ProductDetailsPage = ({
-  data,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  return (
-    <>
-      {data && (
-        <ProductContent
-          data={{
-            title: data.title,
-            thumbnailAlt: data.title,
-            thumbnailUrl: data.image.url,
-            description: data.description,
-            rating: data.rating,
-            price: data.price,
-          }}
-        />
-      )}
-    </>
-  );
-};
+const ProductDetailsPage = () => {
+  const router = useRouter();
+  const [productId, setProductId] = useState<string>("");
 
-//STATIC PATHS
-export const getStaticPaths = async () => {
-  const {
-    data: products,
-    loading: productsLoading,
-    error: productsError,
-  } = await client.query<GetAllProductsResponse>({
-    query: gql`
-      query {
-        products {
-          slug
-        }
-      }
-    `,
-  });
-  return {
-    paths: products.products.map((product) => {
-      return {
-        params: {
-          productId: product.slug,
-        },
-      };
-    }),
-    fallback: "blocking",
-  };
-};
-
-//STATIC PROPS
-export const getStaticProps = async ({
-  params,
-}: GetStaticPropsContext<InferGetStaticPathsType<typeof getStaticPaths>>) => {
-  const {
-    data: product,
-    loading: productsLoading,
-    error: productsError,
-  } = await client.query({
-    variables: {
-      slug: 'piłka-adidas',
-    },
-    query: gql`
-     query($slug: String!) {
-      product(slug: $slug) {
-        product {
-          title
-          price
-          description
-          image {
-            url
-          }
-          rating {
-            rate
-            count
-          }
-        }
-      }
+  useEffect(() => {
+    if(router.query.productId) {
+      setProductId(router.query.productId as string);
     }
-    `,
-  });
+  }, [router.query.productId]);
 
-  if (!params?.productId) {
-    return {
-      props: {},
-      notFound: true,
-    };
-  }
-  return {
-    props: {
-      data: product.product.product,
+  const { data, loading, error } = useQuery(GET_PRODUCT, {
+    variables: {
+      productId: productId
     },
-    notFound: false,
-  };
+    skip: !productId.length,
+  })
+
+  if(error) {
+    return <h1>Something went wrong...</h1>
+  }
+
+  if(!error && loading) {
+    return <h1>Loading...</h1>
+  }
+
+  if(data) {
+    return (
+      <>
+          <ProductContent
+            data={{
+              title: data.product.product.title,
+              thumbnailAlt: data.product.product.title,
+              thumbnailUrl: data.product.product.image.url,
+              description: data.product.product.description,
+              rating: data.product.product.rating,
+              price: data.product.product.price,
+            }}
+            />
+      </>
+    );
+  }
+
+  return null
 };
 
-export default ProductDetailsPage;
+export default ProductDetailsPage

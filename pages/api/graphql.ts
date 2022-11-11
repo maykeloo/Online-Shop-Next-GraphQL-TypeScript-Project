@@ -1,9 +1,9 @@
 import { ApolloServer } from "apollo-server-micro";
-import { Query } from '../../src/query/index'
-import { typeDefs } from "../../src/schema";
-import { Mutation, Product } from '../../src/resolvers'
+import { Query } from '../../server/query/index'
+import { typeDefs } from "../../server/schema";
+import { Mutation, Product } from '../../server/resolvers'
 import { PrismaClient, Prisma } from '@prisma/client'
-import { getUserFromToken } from "../../src/utils/getUserFromToken";
+import { getUserFromToken } from "../../server/utils/getUserFromToken";
 import Cors from 'micro-cors'
 
 export interface Context {

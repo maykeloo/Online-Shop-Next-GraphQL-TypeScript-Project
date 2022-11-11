@@ -10,3 +10,11 @@ export const ADD_FAVORITE = gql`
   }
 `;
 
+export const DELETE_FAVORITE = gql`
+  mutation ($productId: ID!) {
+    deleteFromFavorite(productId: $productId) {
+      productId
+      userId
+    }
+  }
+`;

@@ -1,1 +1,0 @@
-export const JWT_SIGNATURE: string = '213adkjasio2ey10';

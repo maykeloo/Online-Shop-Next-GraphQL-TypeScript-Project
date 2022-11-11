@@ -8,9 +8,6 @@ import { useRouter } from "next/router";
 interface PaginationProps {
   refetch: Dispatch<SetStateAction<number>>;
   page: number;
-  setPerPage: Dispatch<SetStateAction<number>>;
-  perPage: number;
-  ssg?: boolean;
   productsLength: number;
   pagesCount: number
 }
