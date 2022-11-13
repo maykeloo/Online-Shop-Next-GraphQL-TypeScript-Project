@@ -5,17 +5,20 @@ import { Layout } from "../components/Layout"
 import { ApolloProvider } from "@apollo/client"
 import { CartStateContextProvider } from "../components/Cart/CartContext"
 import { LoadingStateContextProvider } from "../components/LoadingContext"
+import { ProductStateContextProvider } from "../components/Product/ProductContext"
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<>
 			<LoadingStateContextProvider>
 				<ApolloProvider client={client}>
-					<CartStateContextProvider>
-						<Layout>
-							<Component {...pageProps} />
-						</Layout>
-					</CartStateContextProvider>
+					<ProductStateContextProvider>
+						<CartStateContextProvider>
+							<Layout>
+								<Component {...pageProps} />
+							</Layout>
+						</CartStateContextProvider>
+					</ProductStateContextProvider>
 				</ApolloProvider>
 			</LoadingStateContextProvider>
 		</>

@@ -31,7 +31,9 @@ const ProductsPage = () => {
   }
 
   if(products) {
-    element = <ProductsList data={products} />
+    element = (
+        <ProductsList data={products} />
+    )
   }
   return (
     <>

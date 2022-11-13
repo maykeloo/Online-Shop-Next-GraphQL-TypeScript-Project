@@ -1,19 +1,26 @@
-import { GET_PRODUCT } from "../graphql/handlers/queries"
 import { ADD_CART, DELETE_CART } from "../graphql/handlers/mutations"
 import { useMutation } from "@apollo/client"
 import { useCartContext } from "../components/Cart/CartContext"
+import { useProductContext } from "../components/Product/ProductContext";
 
 export const useToggleCart = () => {
 	const { refetchCartItems } = useCartContext();
+	const { refetch: refetchProductItem } = useProductContext();
 
 	const [mutateAddFunction, { error: addError, loading: addLoading }] = useMutation(ADD_CART, {
-		onCompleted: () => {
+		onCompleted: (data) => {
 			refetchCartItems()
+			if(data.addToCart) {
+				refetchProductItem(data.addToCart.productId)
+			}
 		}
 	})
 	const [mutateDeleteFunction, { error: deleteError, loading: deleteLoading }] = useMutation(DELETE_CART, {
-		onCompleted: () => {
+		onCompleted: (data) => {
 			refetchCartItems()
+			if(data.addToCart) {
+				refetchProductItem(data.addToCart.productId)
+			}
 		}
 	})
 	
@@ -21,6 +28,7 @@ export const useToggleCart = () => {
 		const mutateData = {
 			variables: {
 				productId,
+				toDelete
 			},
 		}
 

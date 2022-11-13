@@ -3,6 +3,7 @@ import { GetCartPayload } from "../../types/cart.types"
 import { useToggleCart } from "../../utils/useToggleCart"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { memo } from "react"
+import Link from "next/link"
 
 const CartListItemNoMemo = ({ amount, id, price, title }: GetCartPayload) => {
 	const { toggleCart } = useToggleCart()
@@ -20,7 +21,7 @@ const CartListItemNoMemo = ({ amount, id, price, title }: GetCartPayload) => {
 					<input type='number' className='border border-black w-16 h-8 text-center' value={amount} />
 					<PlusCircleIcon width={24} className='cursor-pointer' onClick={() => toggleProductCount(1, id)} />
 				</div>
-				<div>{title}</div>
+				<Link href={`/products/product/${id}`}>{title}</Link>
 				<div className='ml-auto mr-4'>{price}$ </div>
 				<TrashIcon
 					className='cursor-pointer text-red-500 hover:bg-red-200 w-8 h-8 p-1 rounded-md'

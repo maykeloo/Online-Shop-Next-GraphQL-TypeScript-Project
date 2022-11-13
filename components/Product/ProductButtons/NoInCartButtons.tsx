@@ -1,6 +1,7 @@
 import { CurrencyDollarIcon, ShoppingBagIcon } from "@heroicons/react/24/solid"
 import { useToggleCart } from "../../../utils/useToggleCart"
 import { useCartContext } from "../../Cart/CartContext"
+import { useProductContext } from "../ProductContext"
 
 interface NoInCartButtonsProps {
 	isInCart: boolean
@@ -13,6 +14,11 @@ export const NoInCartButtons = ({ isInCart, id }: NoInCartButtonsProps) => {
 	const buyAlert = () => {
 		alert("You've just bought an item!")
 	}
+
+	const addToCart = (id: string, isInCart: boolean) => {
+		toggleCart(id, isInCart)
+	}
+
 	return (
 		<>
 			<div
@@ -22,7 +28,7 @@ export const NoInCartButtons = ({ isInCart, id }: NoInCartButtonsProps) => {
 				<span className='text-white group-hover:text-black'>Buy it now</span>
 			</div>
 			<div
-				onClick={() => toggleCart(id, isInCart)}
+				onClick={() => addToCart(id, isInCart)}
 				className='grow border-2 border-black flex gap-3 items-center justify-center p-4 hover:bg-gray-200 cursor-pointer'>
 				<ShoppingBagIcon width={30} />
 				<span>Add to cart</span>

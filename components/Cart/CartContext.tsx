@@ -10,9 +10,7 @@ export const CartStateContextProvider = ({ children }: { children: ReactNode }) 
   const [_, { data, loading, refetch: refetchCartItems}] = useLazyQuery(CART_PRODUCTS);
   const [ count, setCount ] = useState(0)
   useEffect(() => {
-    if(data) {
-      setCount(data.getCart.length);
-    }
+      setCount(data?.getCart?.length ? data.getCart.length : 0);
   }, [data, loading])
 
   return (
