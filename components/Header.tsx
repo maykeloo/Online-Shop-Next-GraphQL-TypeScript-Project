@@ -1,15 +1,15 @@
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { CartBar } from "./Cart/CartBar";
-import { useCartState } from "./Cart/CartContext";
+import { useCartContext } from "./Cart/CartContext";
 import { HeaderFixed } from "./HeaderFixed";
 import { NavLink } from "./Nav/Link";
 
 export const Header = () => {
-  const { itemsCount: { itemsCount } } = useCartState()
+  const { cartItemsCount, refetchCartItems } = useCartContext()
 
-  useMemo(() => {
-    return itemsCount
-  }, [itemsCount])
+  useEffect(() => {
+    refetchCartItems()
+  }, [refetchCartItems])
 
   return (
     <header className="mb-20">
@@ -18,7 +18,7 @@ export const Header = () => {
           <NavLink pathName="">Głowna</NavLink>
           <NavLink pathName="products/1">Produkty</NavLink>
           <NavLink pathName="about">O nas</NavLink>
-          <CartBar count={itemsCount}/>
+          <CartBar count={cartItemsCount}/>
         </div>
       </nav>
       <HeaderFixed />

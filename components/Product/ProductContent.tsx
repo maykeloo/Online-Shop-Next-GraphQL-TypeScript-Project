@@ -1,55 +1,48 @@
-import { StarIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
+import { ArrowRightOnRectangleIcon, CheckIcon, HeartIcon, ShoppingBagIcon, StarIcon } from "@heroicons/react/24/outline"
+import { Data } from "../../types/utils.types"
+import { useToggleFavorite } from "../../utils/useToggleFavorite"
+import { InCartButtons } from "./ProductButtons/InCartButtons"
+import { NoInCartButtons } from "./ProductButtons/NoInCartButtons"
 
-export interface ProductContentProps {
-  data: ProductsDetails;
-}
-export interface ProductsDetails {
-  description: string;
-  thumbnailUrl: string;
-  thumbnailAlt: string;
-  rating: {
-    count: number;
-    rate: number;
-  };
-  title: string;
-  price: number;
-}
+export const ProductContent = (data: Data) => {
+	const { id, isFavorite, price, title, rating, isInCart, longDescription } = data
+	const { toggleFavorite } = useToggleFavorite(isFavorite)
 
-export const ProductContent = ({ data }: ProductContentProps) => {
-  return (
-    <>
-      <div className="my-10 rounded-xl h-full w-full max-w-7xl mx-auto flex justify-start group flex-col sm:flex-row">
-        <div className="shadow-xl p-4 bg-white rounded-xl flex justify-center">
-          <Image layout="intrinsic" objectFit="contain" width={300} height={400} src={data.thumbnailUrl} alt={data.thumbnailAlt} className="border-1 border-gray-200 mx-auto transition-all"/>
-        </div>
-        <div className="px-4">
-          <div className="flex justify-between mt-4 flex-col gap-4 items-start">
-            <span className="flex gap-2">
-              <StarIcon className="w-4" />
-              {data.rating.rate} ({data.rating.count})
-            </span>
-            <span className="font-bold text-lg text-white bg-black px-4 py-1 rounded-[50px]">
-              ${data.price}
-            </span>
-          </div>
-          <h1 className="font-bold text-2xl mb-4 mt-4">{data.title}</h1>
-          <p className="w-72">{data.description}</p>
-        </div>
-      </div>
-            {/* <button
-        onClick={() =>
-          cartState.addItemToCart({
-            price: data.price,
-            title: data.title,
-            count: 1,
-            id: data.id
-          })
-        }
-        className="p-4 w-fit rounded-full bg-blue-600 text-white mt-2"
-      >
-        <ShoppingBagIcon width={20} />
-      </button> */}
-    </>
-  );
-};
+	return (
+		<>
+			<div className='grow w-3/5 flex flex-col gap-8'>
+				<div className='flex justify-between gap-4'>
+					<h1 className='text-7xl font-bold'>{title}</h1>
+					<span className='flex gap-3 items-center'>
+						<HeartIcon
+							onClick={() => toggleFavorite(id, true)}
+							fill={isFavorite ? "red" : "transparent"}
+							className='cursor-pointer'
+							width={30}
+							height={30}
+						/>
+					</span>
+				</div>
+				<div>
+					<p className='text-5xl'>${price}</p>
+				</div>
+				<div>
+					<p>{longDescription}</p>
+				</div>
+				<div className='flex gap-2'>
+					<StarIcon width={24} />
+					<span className='text-2xl'>
+						{rating.rate} ({rating.count})
+					</span>
+				</div>
+				<div className='flex gap-4'>
+					{isInCart ? (
+						<InCartButtons isInCart={isInCart} id={id} />
+					) : (
+						<NoInCartButtons isInCart={isInCart} id={id} />
+					)}
+				</div>
+			</div>
+		</>
+	)
+}

@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { ReactNode } from "react";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
@@ -11,7 +10,7 @@ export const Layout = ({ children }: Props) => {
   return (
     <>
       <Header />
-      <div className="flex flex-grow max-w-[90vw] mx-auto">{children}</div>
+      <div className="flex flex-grow max-w-screen-xl mx-auto min-h-screen">{children}</div>
       <Footer />
     </>
   );

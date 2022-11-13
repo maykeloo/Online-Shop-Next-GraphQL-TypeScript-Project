@@ -1,94 +1,115 @@
-import { gql } from "apollo-server";
+import { gql } from "apollo-server"
 
 export const typeDefs = gql`
-  type Query {
-    products: [Product!]!
-    productsCount: Int
-    product(productId: ID!): ProductPayload!
-    productsList(limit: Int, offset: Int): [Product]
-  }
+	type Query {
+		productsCount: Int
+		product(productId: ID!): ProductPayload
+		productsList(limit: Int, offset: Int): [Product]
+		getCart: [Product]
+	}
 
-  type Mutation {
-    addProduct(product: InputAddProduct!): ProductPayload!
-    addToFavorite(productId: ID!): FavoritePayload!
-    deleteFromFavorite(productId: ID!): FavoritePayload!
-    signUp(user: SignUpInput!): UserPayload!
-    signIn(user: SignInInput!): UserPayload!
-  }
+	type Mutation {
+		addProduct(product: InputAddProduct!): ProductPayload!
+		addToFavorite(productId: ID!): FavoritePayload!
+		deleteFromFavorite(productId: ID!): FavoritePayload!
+		addToCart(productId: ID!): CartPayload!
+		deleteFromCart(productId: ID!, toDelete: Boolean): CartPayload!
+		signUp(user: SignUpInput!): UserPayload!
+		signIn(user: SignInInput!): UserPayload!
+	}
 
-  type Product {
-    id: ID!
-    title: String!
-    price: Int!
-    slug: String!
-    description: String!
-    category: String!
-    image: Image!
-    imageId: ID!
-    longDescription: String!
-    rating: Rating!
-    isFavorite: Boolean
-  }
+	type Subscription {
+		productAddedToCart(productId: ID!): Product
+	}
 
-  type UserPayload {
-    errors: [Errors]!
-    token: String
-  }
+	type Cart {
+		userId: Int
+		productId: Int
+	}
 
-  type FavoritePayload {
-    userId: Int
-    productId: Int
-  }
+	type Product {
+		id: ID!
+		title: String!
+		price: Int!
+		slug: String!
+		description: String!
+		category: String!
+		image: Image!
+		imageId: ID!
+		longDescription: String!
+		rating: Rating!
+		isFavorite: Boolean!
+		isInCart: Boolean!
+	}
 
-  type Rating {
-    rate: Float
-    count: Int
-    product: Product
-    productId: ID
-  }
+	type UserPayload {
+		errors: [Errors]!
+		token: String
+	}
 
-  type Image {
-    url: String
-    alt: String
-    width: Int
-    height: Int
-    product: Product
-    productId: ID
-  }
+	extend type Product {
+		amount: Int
+	}
 
-  input ImageInput {
-    url: String
-    alt: String
-    width: Int
-    height: Int
-  }
+	type CartPayload {
+		userId: Int
+		productId: Int
+	}
 
-  type Errors {
-    message: String
-  }
+	type FavoritePayload {
+		userId: Int
+		productId: Int
+	}
 
-  type ProductPayload {
-    product: Product
-    errors: [Errors]!
-  }
+	type Rating {
+		rate: Float
+		count: Int
+		product: Product
+		productId: ID
+	}
 
-  input InputAddProduct {
-    title: String!
-    price: Int!
-    description: String!
-    category: String!
-    longDescription: String!
-    image: ImageInput!
-  }
+	type Image {
+		url: String
+		alt: String
+		width: Int
+		height: Int
+		product: Product
+		productId: ID
+	}
 
-  input SignUpInput {
-    name: String!
-    email: String!
-    password: String!
-  }
+	input ImageInput {
+		url: String
+		alt: String
+		width: Int
+		height: Int
+	}
 
-  input SignInInput {
-    email: String!
-    password: String!
-  }
-`;
+	type Errors {
+		message: String
+	}
+
+	type ProductPayload {
+		product: Product
+		errors: [Errors]!
+	}
+
+	input InputAddProduct {
+		title: String!
+		price: Int!
+		description: String!
+		category: String!
+		longDescription: String!
+		image: ImageInput!
+	}
+
+	input SignUpInput {
+		name: String!
+		email: String!
+		password: String!
+	}
+
+	input SignInInput {
+		email: String!
+		password: String!
+	}
+`

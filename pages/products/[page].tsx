@@ -20,27 +20,30 @@ const ProductsPage = () => {
     setPage(Number(router.query.page));
   }, [router.query.page]);
 
+  let element;
+
   if (productsError) {
-    return <h1>Something went wrong.</h1>;
+    element = <h1>Something went wrong.</h1>;
   }
 
   if(!productsError && productsLoading) {
-    return <h1>Loading...</h1>
+    element = <h1>Loading...</h1>
   }
 
   if(products) {
-    return (
-      <>
-        <div className="flex max-w-[90vw] mb-20 mx-auto relative w-full">
-          <div className="flex-grow flex">
-            <FilterList />
-             <ProductsList data={products} /> 
-          </div>
-          <Pagination refetch={setPage} page={page} productsLength={productsCount} pagesCount={pagesCount}/>
-        </div>
-      </>
-    );
+    element = <ProductsList data={products} />
   }
+  return (
+    <>
+      <div className="flex max-w-[90vw] mb-20 mx-auto relative w-full">
+        <div className="flex-grow flex">
+          <FilterList />
+          {element}
+        </div>
+        <Pagination refetch={setPage} page={page} productsLength={productsCount} pagesCount={pagesCount}/>
+      </div>
+    </>
+  );
 };
 
 export default ProductsPage;

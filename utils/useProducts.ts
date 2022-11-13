@@ -1,9 +1,8 @@
 import { useQuery } from "@apollo/client";
 import { ALL_PRODUCTS_COUNT, PAGE_PRODUCTS_QUERY } from "../graphql/handlers/queries";
-import { Products } from "../types/products/products";
+import { Products } from "../types/products.types";
 
 export const useProducts = (limit: number, offset: number) => {
-  console.log(offset)
   const { data: products, loading: productsLoading, error: productsError } = useQuery<Products>(PAGE_PRODUCTS_QUERY, {
     variables: {
       limit,

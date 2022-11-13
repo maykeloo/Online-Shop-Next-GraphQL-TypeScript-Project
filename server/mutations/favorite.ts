@@ -1,7 +1,7 @@
 import { Context } from '../../pages/api/graphql'
 export const Favorite = {
       addToFavorite: (_:any, { productId }: { productId: number }, { prisma, userInfo }: Context) => {
-            return prisma.productsOnUser.create({
+            return prisma.favoritesOnUser.create({
                   data: {
                         user: {
                               connect: {
@@ -18,8 +18,7 @@ export const Favorite = {
       },
       deleteFromFavorite: (_:any, { productId }: { productId: number }, { prisma, userInfo }: Context) => {
             if(userInfo) {
-                  console.log(userInfo.userId, productId)
-                  return prisma.productsOnUser.delete({
+                  return prisma.favoritesOnUser.delete({
                        where: {
                         userId_productId: {
                               productId: +productId,
